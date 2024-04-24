@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "self_referencings",
+  "info": {
+    "singularName": "self-referencing",
+    "pluralName": "self-referencings",
+    "displayName": "SelfReferencing"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "parent": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::self-referencing.self-referencing",
+      "inversedBy": "children"
+    },
+    "children": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::self-referencing.self-referencing",
+      "mappedBy": "parent"
+    }
+  }
+}
