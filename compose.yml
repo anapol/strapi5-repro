@@ -1,0 +1,48 @@
+services:
+  strapi:
+    image: node:20
+    #command: bash -c "cd /strapi && yarn start"
+    #command: bash -c "cd /strapi && yarn develop"
+    #command: bash -c "cd /strapi && yarn upgrade knex@latest && node --stack-size=64000 ./node_modules/.bin/strapi develop"
+    #command: bash -c "cd /strapi && yarn upgrade knex@latest && node ./node_modules/.bin/strapi develop"
+    #command: bash -c "cd /strapi && node --stack-size=128000 ./node_modules/.bin/strapi develop"
+    command: /bin/bash -c "while sleep 1000; do :; done"
+    environment:
+      - ADMIN_JWT_SECRET=qL7PTKm+JCJOavk1ao6jxpEqA2pKIcxCCnplyChiqX2cXthiCfP8NF7smC6Adth9dKVen6lvDyF0oJIAXSA11w==
+      - DATABASE_CLIENT=${STRAPI_DATABASE_CLIENT:-postgres}
+      - DATABASE_HOST=${STRAPI_DATABASE_HOST:-db}
+      - DATABASE_PORT=${STRAPI_DATABASE_PORT:-5432}
+      - DATABASE_NAME=${PG_DBNAME:-cms}
+      - DATABASE_USERNAME=${PG_DBNAME:-cms}
+      - DATABASE_PASSWORD=${PG_PASSWORD:-cms}
+      - DEBUG=strapi:* knex:*
+      - NODE_ENV=development
+    volumes:
+      - ./strapi:/strapi
+    ports:
+      - 1337:1337
+    depends_on:
+      - db
+
+  db:
+    image: postgres:14
+    environment:
+      - POSTGRES_USER=${PG_USER:-cms}
+      - POSTGRES_PASSWORD=${PG_PASSWORD:-cms}
+      - POSTGRES_DB=${PG_DBNAME:-cms}
+    volumes:
+      - ./postgres/data:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer
+    restart: unless-stopped
+    ports:
+      - 8083:8080
+    environment:
+      - ADMINER_DEFAULT_SERVER=db
+
+networks:
+  default:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: 1400
