@@ -17,6 +17,10 @@ services:
       - DATABASE_PASSWORD=${PG_PASSWORD:-cms}
       - DEBUG=strapi:* knex:*
       - NODE_ENV=development
+      - APP_KEYS=MS1SILyfJxK5/J5kwWQFxQ==,mMXLNBzR0fEuqRsXPeWG9w==,J9xxvVZQygpwTh8wOHjrAw==,V8LDvrstTVQpOfz48mZgVw==
+      - API_TOKEN_SALT=jNtyA0hQOTMMS8JDDYRIZw==
+      - ADMIN_JWT_SECRET=9FpkljaL3cuVdILWIFT98A==
+      - TRANSFER_TOKEN_SALT=i3c78fCLqmvgodiS1hUBEw==
     volumes:
       - ./strapi:/strapi
     ports:
